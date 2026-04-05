@@ -1,0 +1,242 @@
+﻿You are an expert front-end engineer and UX-minded service designer. Build a single-page interactive HTML application (no build tools, just HTML/CSS/JS in one file) for maintaining a design decision log for the alpha.gov.bb project.
+Overall requirements
+* Output a single, complete HTML file with:
+
+   * Semantic, accessible HTML
+
+   * Embedded CSS (in a <style> tag)
+
+   * Embedded JavaScript (in a <script> tag)
+
+      * No external dependencies (no React, no frameworks, no build setup).
+
+      * The app will run in a modern browser just by opening the .html file.
+
+Concept
+The app is a decision log for the GovTech forms prototyping team.
+Each decision has structured fields and can be:
+         * Added
+
+         * Edited
+
+         * Filtered / searched
+
+         * Sorted
+
+         * Marked as current / superseded
+
+Data model
+Each decision entry should support at least these fields:
+            * id (generated in JS)
+
+            * date (ISO date string, e.g. 2026-04-01)
+
+            * area (free text, e.g. “Form labels”, “Email templates”, “Design ops / documentation”)
+
+            * question (full description of the question/problem we were solving)
+
+            * decision (short but clear statement of what we decided to do)
+
+            * rationale (why: user needs, constraints, accessibility, etc.)
+
+            * status (enum/string: "current", "superseded", "draft")
+
+            * source (free text; can include Slack links or tool names)
+
+            * notes (optional extra notes or follow-ups)
+
+Store decisions in memory (an array in JS) and also in localStorage so they persist across page reloads.
+Interactions
+Implement the following:
+               1. Add decision
+
+                  * A form at the top or in a side panel to add a new decision entry.
+
+                  * Required fields: date, area, question, decision, status.
+
+                  * Optional fields: rationale, source, notes.
+
+                  * On submit: validate, add to the in-memory list, save to localStorage, and re-render the table/list.
+
+                     2. Edit decision
+
+                        * Each decision in the list should have an “Edit” control.
+
+                        * Editing can be inline (turns the row into editable inputs) or via a modal/dialog.
+
+                        * On save: update the decision, persist to localStorage, re-render.
+
+                           3. Status management
+
+                              * Display status clearly (e.g. badge: Current, Superseded, Draft).
+
+                              * Status should be editable.
+
+                              * When a decision is “superseded”, it should still be viewable, but visually differentiated (e.g. dimmed, tag).
+
+                                 4. Filter and search
+
+                                    * At minimum:
+
+                                       * Text search box that filters by question, decision, area, and rationale.
+
+                                       * Dropdown filter by status (All / Current / Superseded / Draft).
+
+                                       * Optional dropdown or text filter by area.
+
+                                          * Filters should update the list live as the user types/changes options.
+
+                                             5. Sorting
+
+                                                * Ability to sort by:
+
+                                                   * Date (newest first / oldest first)
+
+                                                   * Area (A–Z)
+
+                                                   * Status
+
+                                                      * This can be done via clickable table headers or a small “Sort by” control.
+
+                                                         6. View details
+
+                                                            * Each entry in the main list should show key fields (e.g. date, area, question, decision, status).
+
+                                                            * There should be a way to see full rationale, source, and notes:
+
+                                                               * Either in an expandable row (“Show more”) or a simple details pane/modal.
+
+                                                                  7. Reset / import / export (simple)
+
+                                                                     * Button to export current decisions as a JSON string (e.g. open a <textarea> with the JSON for copy-paste).
+
+                                                                     * Button or area to import decisions from pasted JSON (replacing or merging with current list).
+
+                                                                     * Button to “Clear all” (wipe localStorage and in-memory decisions) with a confirmation step.
+
+UX and styling
+                                                                        * Use clean, readable styling with CSS (no frameworks).
+
+                                                                        * Prefer a simple, responsive layout that works well on a laptop screen.
+
+                                                                        * Use sentence case for UI labels (aligning with the team’s conventions).
+
+                                                                        * Accessibility basics:
+
+                                                                           * Proper label–input associations for forms.
+
+                                                                           * Logical heading structure.
+
+                                                                           * Sufficient color contrast.
+
+                                                                           * Keyboard-focusable buttons/controls.
+
+Suggested layout (you can improve this):
+                                                                              * Header: “GovTech Forms – Design decision log”
+
+                                                                              * Left/top section: filters and sort controls
+
+                                                                              * Below/side: decision list (table or card list)
+
+                                                                              * Right or below: “Add / edit decision” form
+
+Initial seed data
+Seed the app with a few example decisions (pre-populated in JS) to show how it works. Use these summarised entries:
+                                                                                 1. Form field labels – sentence case only
+
+                                                                                    * date: 2026-04-01
+
+                                                                                    * area: Form labels
+
+                                                                                    * question: “What capitalisation style should we use for form field labels?”
+
+                                                                                    * decision: “Use sentence case only for form field labels; avoid Title Case.”
+
+                                                                                    * rationale: “Sentence case improves readability and is better for accessibility, especially for users with cognitive or reading difficulties.”
+
+                                                                                    * status: “current”
+
+                                                                                    * source: “Slack – message from Amy on 1 Apr 2026 about title case vs sentence case.”
+
+                                                                                    * notes: “Referenced later by Shannon when answering questions about form field labels.”
+
+                                                                                       2. Form emails – MDA vs applicant and PII
+
+                                                                                          * date: 2026-04-01
+
+                                                                                          * area: Form emails
+
+                                                                                          * question: “How should we structure and send emails for submitted forms, for MDAs and applicants?”
+
+                                                                                          * decision: “Send an email to the MDA with applicant details; send a separate confirmation to the applicant with no PII, with variations when payment or other conditions apply.”
+
+                                                                                          * rationale: “MDAs need full details to act on submissions, while applicants should receive confirmations without exposing personal data in email.”
+
+                                                                                          * status: “current”
+
+                                                                                          * source: “Slack – forms prototyping team discussion on 1 Apr 2026 (messages from Amoge, Leann, Adunni, Gavin, Shannon).”
+
+                                                                                          * notes: “The email with details is sent by alpha.gov.bb; the payment provider only sends a PDF receipt.”
+
+                                                                                             3. MDA email timing when payments are involved
+
+                                                                                                * date: 2026-04-01
+
+                                                                                                * area: Form emails
+
+                                                                                                * question: “When should we send the email to the MDA for forms that require a payment?”
+
+                                                                                                * decision: “If payments are enabled, do not send the email to the MDA until payment has been successfully completed and confirmed by the third-party provider.”
+
+                                                                                                * rationale: “Avoid notifying MDAs about submissions where the user has not completed payment; keep MDA notifications aligned with successful, actionable submissions.”
+
+                                                                                                * status: “current”
+
+                                                                                                * source: “Slack – Shannon’s explanation to Efe on 1 Apr 2026 about payment-confirmed emails.”
+
+                                                                                                * notes: “”
+
+                                                                                                   4. Documenting decisions
+
+                                                                                                      * date: 2026-04-01
+
+                                                                                                      * area: Design ops / documentation
+
+                                                                                                      * question: “How do we avoid tools and teammates missing important design principles and decisions?”
+
+                                                                                                      * decision: “Document design principles and decisions in a central, easily accessible place rather than only in Slack threads or prototypes.”
+
+                                                                                                      * rationale: “People and tools cannot infer all constraints from prototypes alone; centralised documentation reduces confusion and duplicated discussion.”
+
+                                                                                                      * status: “current”
+
+                                                                                                      * source: “Slack – Gavin’s reflection on 1 Apr 2026 about documenting decisions.”
+
+                                                                                                      * notes: “This app is one implementation of that decision.”
+
+Implementation details
+                                                                                                         * Use modern vanilla JavaScript (ES6+), but no TypeScript.
+
+                                                                                                         * Wrap JS in an IIFE or module pattern to avoid leaking globals except what’s necessary.
+
+                                                                                                         * Use simple helper functions for:
+
+                                                                                                            * Loading from localStorage
+
+                                                                                                            * Saving to localStorage
+
+                                                                                                            * Rendering the decision list
+
+                                                                                                            * Applying filters and sort
+
+                                                                                                            * Handling form submissions and edits
+
+                                                                                                               * Keep the code well-commented, explaining not just what but why where helpful.
+
+Output format
+Return only the final HTML file in a single code block, e.g.:
+<!doctype html>  
+<html lang="en">  
+  ...  
+</html>  
+No extra commentary outside the code block.

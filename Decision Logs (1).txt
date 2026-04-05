@@ -1,0 +1,43 @@
+﻿Declaration page position in the form flow 
+* Date: 2 Apr 2026
+* Area: Form flow / information architecture
+* Question / problem (inferred): Where in the flow should the “declaration” page appear relative to the “check answers” page?
+* Decision: The prototypes were updated so that the declaration comes after the check answers page.
+* Why (inferred rationale):
+   * Users first see all their answers together, can correct them, then confirm via a declaration.
+   * This avoids people “agreeing” before they’ve had a chance to review everything.
+* Source: Kristin’s stand‑up update: she “updated prototypes so the declaration come after check answers page.” ​⁠
+You can log this as something like: “Place declaration screen after check answers, not before, so users review before confirming.”
+Alignment vs Kickoff calls for MDAs 
+This is about how you structure engagement around forms and services, which is part of the overall service design.
+* Date: 1 Apr 2026
+* Area: MDA engagement / service design process
+* Question / problem: How should the prototyping team structure its calls with an MDA so that discovery, alignment, and detailed form walkthroughs are handled clearly?
+* Decision:
+   * Introduce an Alignment Call as the first call the prototyping team has with the MDA.
+   * Use Kickoff Calls to meet with the Digital Champion and forms processors to walk through prototypes one by one.
+   * Questions about internal processes sit in the Kickoff Call agenda (not the Alignment Call).
+* Why (rationale, inferred):
+   * Separate “high‑level alignment” from detailed process and form walkthroughs.
+   * Make it clearer what to ask when, and who should be in which session.
+* Source: Leann’s explanation of the updated call structure and agendas. ​⁠
+Shared lookup data for common dropdowns (KV store / lookup table) 
+This one is directly about how you implement and design form controls for common lists (parishes, countries, etc.), and how you keep them consistent.
+* Date: 2 Apr 2026
+* Area: Forms platform / data model for dropdown options
+* Question / problem: How should we store and provide reusable lists like parishes, countries, titles (Mr/Miss/Mrs), schools, etc., so forms don’t hardcode options?
+* Decision:
+   * Use a central store (conceptually a KV store / lookup table) to hold reusable dropdown/select lists such as parishes, countries, titles, schools, and similar constants.
+   * Implement this as a lookup table in the database migrated “like everything else”, plus a small API endpoint so front‑end forms can fetch these lists at runtime instead of hardcoding them.
+   * This fits into the existing infrastructure; no new infra changes are needed.
+* Why (rationale, inferred):
+   * Ensure consistency in option lists across forms (e.g. the same set of parishes everywhere).
+   * Make it easier to maintain and update options centrally rather than editing many separate forms.
+   * Keep the architecture simple by reusing existing migration and API patterns.
+* Source:
+   * Isaiah’s question about “a KV store… to store constant values like Parishes, Countries, Titles, Schools, etc?” ​⁠
+   * Laron’s clarification and confirmation that this would be implemented as lookup tables plus an API, with no infra changes. ​⁠ ​⁠ ​⁠
+You can phrase this in the log as: “Use central lookup tables and an API for shared dropdown lists; no hardcoded lists per form.”
+In the log, keep:
+* A “Product & Service Decisions” section with the core ones (labels, emails, payment timing, declaration placement, shared lookups, block overrides).
+* A “Service Engagement Patterns” section where you capture things like Alignment vs Kickoff calls.
